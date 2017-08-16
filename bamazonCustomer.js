@@ -2,8 +2,6 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var prompt = require('prompt');
 
-var productPurchased = [];
-
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -16,16 +14,17 @@ connection.connect(function(err) {
   if (err) throw err;
   start();
   buyItem();
-});
+  });
+
 function start() {
   connection.query("SELECT * FROM products", function (err, result, fields) {
       if (err) throw err;
       for (i = 0; i < result.length; i++){
-          console.log("item_id: " + result[i].item_id);
+          console.log("\n" + "item_id: " + result[i].item_id);
           console.log("product_name: " + result[i].product_name);
           console.log("department_name: " + result[i].department_name);
           console.log("price: " + result[i].price);
-          console.log("stock_quantity: " + result[i].stock_quantity + "\n");
+          console.log("stock_quantity: " + result[i].stock_quantity);
       }
   });
 }
@@ -36,7 +35,7 @@ inquirer
     {
        name: "item",
        type: "input",
-       message: "What is the id of the product you would like to buy?"
+       message: "What is the item_id of the product you would like to buy?"
      },
    {
        name: "units",
